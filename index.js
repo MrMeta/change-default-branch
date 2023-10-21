@@ -1,10 +1,13 @@
 const core = require('@actions/core');
-const github = require('@actions/github');
+const { createBranch } = require('./utils');
 
-try {
-  const targetBranch = core.getInput('target-branch');
-  console.log(`Hello ${targetBranch}!`);
-  core.setOutput("is-created", true);
-} catch (error) {
-  core.setFailed(error.message);
+async function main() {
+  try {
+    const targetBranch = core.getInput('target-branch');
+    console.log(`Hello ${targetBranch}!`);
+    core.setOutput("is-created", await createBranch(targetBranch));
+  } catch (error) {
+    core.setFailed(error.message);
+  }
 }
+main();
