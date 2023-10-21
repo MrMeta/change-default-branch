@@ -1,6 +1,6 @@
 const { getOctokit, context } = require('@actions/github');
 
-export async function createBranch(targetBranch) {
+async function createBranch(targetBranch) {
     const toolkit = getOctokit(githubToken());
 
     const tragetRef = `refs/heads/${targetBranch}`;
@@ -24,3 +24,5 @@ function githubToken() {
     if (!token) throw ReferenceError('No token defined in the environment variables');
     return token;
 }
+
+module.exports = { createBranch };
