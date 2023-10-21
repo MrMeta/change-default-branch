@@ -1,0 +1,13 @@
+name: 'Change Default Branch'
+description: 'Change default branch'
+author: 'Jongin Park'
+inputs:
+  target-branch:
+    description: 'Name of target branch'
+    required: true
+outputs:
+  is-created:
+    description: 'Whether target branch is created or not'
+runs:
+  using: 'node20'
+  main: 'index.js'
