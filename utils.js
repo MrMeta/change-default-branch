@@ -11,7 +11,7 @@ async function createBranch(targetBranch) {
         ...context.repo,
       })
     } catch (error) {
-      if (error.name === 'HttpError' && error.status === 422 && error.data['message'] == 'Reference already exists') {
+      if (error.name === 'HttpError' && error.status === 422 && error.response.data.message == 'Reference already exists') {
         return false;
       }
       throw Error(error);
