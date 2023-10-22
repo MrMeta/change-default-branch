@@ -11,10 +11,13 @@ async function main() {
 
     const isCreated = await createBranch(baseBranch, targetBranch);
     if (!isCreated) {
-      console.log(`${targetBranch} already exists`);
+      console.log(`${targetBranch} already exists.`);
+    } else {
+      console.log(`${targetBranch} is created.`);
     }
     core.setOutput("is-created", isCreated);
     await changeDefaultBranch(targetBranch);
+    console.log(`Default branch is ${targetBranch} now.`)
   } catch (error) {
     core.setFailed(error.message);
   }
