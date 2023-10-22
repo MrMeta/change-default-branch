@@ -1,22 +1,27 @@
 const { getOctokit, context } = require('@actions/github');
 
-async function createBranch(targetBranch) {
-    const toolkit = getOctokit(githubToken());
+async function createBranch(baseBranch, targetBranch) {
+  const toolkit = getOctokit(githubToken());
 
-    const targetRef = `refs/heads/${targetBranch}`;
-    try {
-      await toolkit.rest.git.createRef({
-        ref: targetRef,
-        sha: context.sha,
-        ...context.repo,
-      })
-    } catch (error) {
-      if (error.name === 'HttpError' && error.status === 422 && error.response.data.message == 'Reference already exists') {
-        return false;
-      }
-      throw Error(error);
+  try {
+    const res = await toolkit.rest.git.getRef({
+      ref: `heads/${baseBranch}`,
+      ...context.repo,
+    });
+
+    await toolkit.rest.git.createRef({
+      ref: `refs/heads/${targetBranch}`,
+      sha: res.data.object.sha,
+      ...context.repo,
+    })
+  } catch (error) {
+    if (error.name === 'HttpError' && error.status === 422 && error.response.data.message == 'Reference already exists') {
+      return false;
     }
-    return true;
+    console.log(error);
+    throw Error(error);
+  }
+  return true;
 }
 
 async function changeDefaultBranch(targetBranch) {

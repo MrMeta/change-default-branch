@@ -2,6 +2,13 @@
 
 ## Inputs
 
+
+### `base-branch`
+
+**Required** The name of base branch
+
+- Target branch is created based on this branch
+
 ### `target-branch`
 
 **Required** The name of target branch
@@ -20,6 +27,7 @@ Whether target branch is created or not
 ```yaml
 uses: MrMeta/change-default-branch@v0.1
 with:
+  base-branch: 'main'
   target-branch: 'target-branch'
 ```
 

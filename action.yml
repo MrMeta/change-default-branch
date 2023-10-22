@@ -2,6 +2,9 @@ name: 'Change Default Branch'
 description: 'Change default branch'
 author: 'Jongin Park'
 inputs:
+  base-branch:
+    description: 'Name of base branch'
+    required: true
   target-branch:
     description: 'Name of target branch'
     required: true
