@@ -3,10 +3,10 @@ const { getOctokit, context } = require('@actions/github');
 async function createBranch(targetBranch) {
     const toolkit = getOctokit(githubToken());
 
-    const tragetRef = `refs/heads/${targetBranch}`;
+    const targetRef = `refs/heads/${targetBranch}`;
     try {
       await toolkit.rest.git.createRef({
-        ref: tragetRef,
+        ref: targetRef,
         sha: context.sha,
         ...context.repo,
       })
@@ -19,10 +19,19 @@ async function createBranch(targetBranch) {
     return true;
 }
 
+async function changeDefaultBranch(targetBranch) {
+  const toolkit = getOctokit(githubToken());
+
+  await toolkit.rest.repos.update({
+    ...context.repo,
+    default_branch: targetBranch,
+  });
+}
+
 function githubToken() {
     const token = process.env.GITHUB_TOKEN;
     if (!token) throw ReferenceError('No token defined in the environment variables');
     return token;
 }
 
-module.exports = { createBranch };
+module.exports = { createBranch, changeDefaultBranch };

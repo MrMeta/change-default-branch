@@ -1,5 +1,5 @@
 const core = require('@actions/core');
-const { createBranch } = require('./utils');
+const { createBranch, changeDefaultBranch } = require('./utils');
 
 async function main() {
   try {
