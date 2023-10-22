@@ -4,8 +4,12 @@ const { createBranch, changeDefaultBranch } = require('./utils');
 async function main() {
   try {
     const targetBranch = core.getInput('target-branch');
-    console.log(`Hello ${targetBranch}!`);
-    core.setOutput("is-created", await createBranch(targetBranch));
+    const isCreated = await createBranch(targetBranch);
+    if (!isCreated) {
+      console.log(`${targetBranch} already exists`)
+    }
+    core.setOutput("is-created", isCreated);
+    await changeDefaultBranch(targetBranch);
   } catch (error) {
     core.setFailed(error.message);
   }
